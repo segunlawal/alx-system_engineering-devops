@@ -33,8 +33,14 @@ defaults
 	errorfile 503 /etc/haproxy/errors/503.http
 	errorfile 504 /etc/haproxy/errors/504.http
 
-listen http
-.bind *:80
-.balance roundrobin
-.server server1 52.91.128.8:80 check
-.server server2 100.24.240.21:80 check
+frontend http-in
+    bind *:80
+    mode http
+    bind *:443 ssl crt /etc/haproxy/certs/www.segunlawal.tech.pem
+    redirect scheme https if !{ ssl_fc }
+    default_backend servers
+
+backend servers
+    balance roundrobin
+    server 222298-web-01 52.91.128.8:80 check
+    server 222298-web-02 100.24.240.21:80 check
