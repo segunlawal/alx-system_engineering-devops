@@ -33,14 +33,19 @@ defaults
 	errorfile 503 /etc/haproxy/errors/503.http
 	errorfile 504 /etc/haproxy/errors/504.http
 
-frontend http-in
-    bind *:80
-    mode http
-    bind *:443 ssl crt /etc/haproxy/certs/www.segunlawal.tech.pem
-    redirect scheme https if !{ ssl_fc }
-    default_backend servers
+frontend segunlawal-frontend
+        bind *:80
+        mode http
+        http-request redirect scheme https code 301 unless { ssl_fc }
+        http-request set-header X_Forwarded-Proto http
+        default_backend segunlawal-backend
 
-backend servers
-    balance roundrobin
-    server 222298-web-01 52.91.128.8:80 check
-    server 222298-web-02 100.24.240.21:80 check
+frontend segunlawal-frontend-https
+        bind *:443 ssl crt /etc/haproxy/certs/segunlawal.tech.pem
+        http-request set-header X-Forwarded-Proto https
+        default_backend segunlawal-backend
+
+backend segunlawal-backend
+        balance roundrobin
+        server 222298-web-01 52.91.128.8:80 check
+        server 222298-web-02 100.24.240.21:80 check
