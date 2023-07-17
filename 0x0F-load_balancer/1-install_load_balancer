@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Installs and configures HAproxy on web server
+
+sudo apt-get update
+sudo apt-get -y install haproxy
+sudo chown -R "$USER:$USER" /etc/haproxy/
+sudo echo "
+listen http
+	bind *:80
+	balance roundrobin
+	server server1 52.91.128.8:80 check
+	server server2 100.24.240.21:80 check" >> /etc/haproxy/haproxy.cfg
+sudo service haproxy restart

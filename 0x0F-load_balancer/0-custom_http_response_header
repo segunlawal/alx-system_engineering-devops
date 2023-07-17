@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Install nginx web server
+# Ngnix HTTP response contains a custom header
+
+sudo apt-get update
+sudo apt-get -y install nginx
+sudo chown -R "$USER:$USER" /var/www
+sudo ufw allow "Nginx HTTP"
+sudo sed -i "/http {/a \        add_header X-Served-By \"$$(hostname)\";" /etc/nginx/nginx.conf
+service nginx start
