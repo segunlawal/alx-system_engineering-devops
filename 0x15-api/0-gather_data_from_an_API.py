@@ -22,7 +22,7 @@ def get_list():
         employee.get('name'), completed, len(r)))
 
     for task in done:
-        print("\t{}".format(task.get('title')))
+        print("\t {}".format(task.get('title')))
 
 
 if __name__ == "__main__":
