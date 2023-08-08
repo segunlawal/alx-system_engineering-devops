@@ -17,4 +17,4 @@ def top_ten(subreddit):
             title = post["data"]["title"]
             print("{}. {}".format(i, title))
     else:
-        return 0
+        return (None)
